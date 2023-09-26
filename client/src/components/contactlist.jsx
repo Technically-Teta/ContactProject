@@ -1,6 +1,13 @@
 import React from 'react'
 
 function contactlist() {
+
+// modal -Edit  
+//Modal+ DELTE BUTTONS    
+// See individual page    
+
+
+
   return (
     <div>
       
