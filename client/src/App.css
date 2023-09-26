@@ -1,0 +1,25 @@
+.App {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.Events {
+  box-shadow: 1px, gray;
+}
+
+h1 {
+  color: #00556e;
+  margin-bottom: 50px !important;
+}
+
+form{
+  margin-top: 50px;
+}
+
+div.react-confirm-alert-body{
+  background-color: #c4d6dc;
+  color: #d44714c1;
+  font-family: "lato", helvetica, sans-serif;
+}
