@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 const FormEvent = (props) => {
 
-    //const [ event, setEvent ] = useState({title: "", location: "", eventtime: ""})
+    //const [ contact, setContact ] = useState({title: "", location: "", eventtime: ""})
     const userTitle = useRef();
     const userLocation = useRef();
 
