@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import {
@@ -19,7 +20,7 @@ import { data, states } from './makeData';
 const CreateContact = () => {
 
     //USE STATES
-const [createModalOpen, setCreateModalOpen] = useState(false);
+
 const [tableData, setTableData] = useState(() => data);
 const [validationErrors, setValidationErrors] = useState({});
 const [contactsGrab, setContactsGrab] = useState(()=> contacts);
@@ -49,7 +50,7 @@ then((reponse) => reponse.json())
       setContactsGrab([...contacts, data])
     })
 
-
+  };
 
 
 
@@ -90,38 +91,44 @@ const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
       setTableData([...tableData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
-  };
+  
 
 const handleCancelRowEdits = () => {
     setValidationErrors({});
   };
 
-  
   const handleDeleteRow = useCallback(
     (row) => {
-      if (
-        !confirm(`Are you sure you want to delete ${row.getValue('Name')}`)
-      ) {
+      if (!confirm(`Are you sure you want to delete ${row.getValue('Name')}`)) {
         return;
       }
-      //send api delete request here, then refetch or update local table data for re-render
-      fetch(`http://localhost:8080/api/events/${id}`, {
-        method: "DELETE"
-      }).then((response) => {
-        if(response.status === 200) {
-          getContacts()
-        }
-      })
-      tableData.splice(row.index, 1);
-      setTableData([...tableData]);
-    },
-    [tableData],
-    
-      
   
-      
-
+      // Send API delete request here, then refetch or update local table data for re-render
+      const handleDeleteRequest = (id) => {
+        fetch(`http://localhost:8080/api/events/${id}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              getContacts();
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting data:", error);
+          });
+      };
+  
+      // Call the delete request function with the appropriate ID
+      handleDeleteRequest(row.original.id);
+  
+      // Update local table data to trigger a re-render
+      const updatedTableData = [...tableData];
+      updatedTableData.splice(row.index, 1);
+      setTableData(updatedTableData);
+    },
+    [tableData]
   );
+  
 
   const getCommonEditTextFieldProps = useCallback(
     (cell) => {
@@ -153,8 +160,6 @@ const handleCancelRowEdits = () => {
   );
 
    
-// connect to db fetch and await
-
 //Think of memoization as caching a value so that it does not need to be recalculated.The useMemo Hook only runs when one of its dependencies update
 // BUILD THE COLUMNS HERE
 const buildColumns = useMemo(
