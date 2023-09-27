@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import {
   Box,
@@ -19,8 +19,48 @@ import { data, states } from './makeData';
 const CreateContact = () => {
 
     //USE STATES
+const [createModalOpen, setCreateModalOpen] = useState(false);
 const [tableData, setTableData] = useState(() => data);
 const [validationErrors, setValidationErrors] = useState({});
+const [contactsGrab, setContactsGrab] = useState(()=> contacts);
+
+// GET, POST, PUT, DELETE
+
+//GET 
+const getContacts = () => {
+  fetch("http://localhost:3000/")
+  .then((response)=> response.json())
+  .then(contactsGrab => {
+    setContactsGrab(contactsGrab);
+    console.log('Contacts fetched...',contactsGrab)
+  });
+}
+
+//POST
+const handlePostRequest = () => {
+fetch("http://localhost:3000/api/contacts", { 
+  method: 'POST',
+  headers:{ 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
+then((reponse) => reponse.json())
+    .then((data) => {
+      console.log("Inside the post line 48", data)
+      setEvents([...events, data])
+    })
+
+
+
+
+
+
+
+
+
+useEffect(() => {getContacts()},[]);
+
+
+
 
 //FUNCTIONS FOR ACTIONS 
 const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
@@ -35,7 +75,6 @@ const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
 const handleCancelRowEdits = () => {
     setValidationErrors({});
   };
-
 
   const handleDeleteRow = useCallback(
     (row) => {
