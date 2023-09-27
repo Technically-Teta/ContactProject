@@ -9,21 +9,20 @@ import {
 //   DialogContent,
 //   DialogTitle,
   IconButton,
-  MenuItem,
 //   Stack,
 //   TextField,
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { data, states } from './makeData';
+
 
 const CreateContact = () => {
 
     //USE STATES
 
-const [tableData, setTableData] = useState(() => data);
+const [tableData, setTableData] = useState([]);
 const [validationErrors, setValidationErrors] = useState({});
-const [contactsGrab, setContactsGrab] = useState(()=> contacts);
+
 
 // GET, POST, PUT, DELETE
 
@@ -31,23 +30,23 @@ const [contactsGrab, setContactsGrab] = useState(()=> contacts);
 const getContacts = () => {
   fetch("http://localhost:3000/")
   .then((response)=> response.json())
-  .then(contactsGrab => {
-    setContactsGrab(contactsGrab);
-    console.log('Contacts fetched...',contactsGrab)
+  .then(tableData => {
+    setTableData(tableData);
+    console.log('Contacts fetched...',tableData)
   });
 }
 
 //POST
-const handlePostRequest = () => {
+const handlePostRequest = (data) => {
 fetch("http://localhost:3000/api/contacts", { 
   method: 'POST',
   headers:{ 'Content-Type': 'application/json' },
   body: JSON.stringify(data)
-});
-then((reponse) => reponse.json())
+})
+.then((reponse) => reponse.json())
     .then((data) => {
       console.log("Inside the post line 48", data)
-      setContactsGrab([...contacts, data])
+      setTableData([... data])
     })
 
   };
@@ -179,8 +178,6 @@ const buildColumns = useMemo(
     muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
         ...getCommonEditTextFieldProps(cell),
       }),
-
-
    },
    {
     accessorKey: 'email',
@@ -199,23 +196,8 @@ const buildColumns = useMemo(
       ...getCommonEditTextFieldProps(cell),
       type: 'number',
     }),
-
-    },
-    {
-        accessorKey: 'state',
-        header: 'State',
-        muiTableBodyCellEditTextFieldProps: {
-          select: true, //change to select for a dropdown
-          children: states.map((state) => (
-            <MenuItem key={state} value={state}>
-              {state}
-            </MenuItem>
-          )),
-        },
-      },
-    ],
-    [getCommonEditTextFieldProps],
-  );
+    }])
+    
 
 
 //CREATE FUNCTIONS FOR THE COLUMNS; EDIT AND DELETE  
@@ -257,10 +239,18 @@ const buildColumns = useMemo(
           </Tooltip>
         </Box>
       )}
-      
         />
+         <div className='validation errors'>
 
-      
+
+
+
+
+
+         </div>
+
+
+
 
 
     </div>
@@ -268,18 +258,8 @@ const buildColumns = useMemo(
     
   );
 
-   // eslint-disable-next-line no-unreachable
-    const validateRequired = (value) => !!value.length;
-    const validateEmail = (email) =>
-    !!email.length &&
-    email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      );
+       }
+ 
 
 
-}
-
-
-export default CreateContact;
+export default CreateContact
