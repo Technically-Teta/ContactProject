@@ -60,8 +60,6 @@ const handleCancelRowEdits = () => {
           const isValid =
             cell.column.id === 'email'
               ? validateEmail(event.target.value)
-              : cell.column.id === 'age'
-              ? validateAge(+event.target.value)
               : validateRequired(event.target.value);
           if (!isValid) {
             //set validation error for cell if invalid

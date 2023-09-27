@@ -1,6 +1,9 @@
-import React from 'react'
+ 
 
 function viewcontact() {
+//shows info for one user
+//search allows to show user 
+
   return (
     <div>
       
