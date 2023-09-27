@@ -9,11 +9,13 @@ import {
 //   DialogContent,
 //   DialogTitle,
   IconButton,
+  MenuItem,
 //   Stack,
 //   TextField,
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import {relationships} from '/relationshipcontact'
 
 
 const CreateContact = () => {
@@ -196,9 +198,23 @@ const buildColumns = useMemo(
       ...getCommonEditTextFieldProps(cell),
       type: 'number',
     }),
-    }])
-    
+    },
+    {       
+    accessorKey: 'relationship',
+        header: 'relationship',
+        muiTableBodyCellEditTextFieldProps: {
+          select: true, //change to select for a dropdown
+          children: relationships.map((relationship) => (
+            <MenuItem key={relationship} value={relationship}>
+              {relationship}
+            </MenuItem>
+          )),
+        },
+      },
+   ],
 
+[getCommonEditTextFieldProps],
+);
 
 //CREATE FUNCTIONS FOR THE COLUMNS; EDIT AND DELETE  
    
