@@ -46,12 +46,8 @@ fetch("http://localhost:3000/api/contacts", {
 then((reponse) => reponse.json())
     .then((data) => {
       console.log("Inside the post line 48", data)
-      setEvents([...events, data])
+      setContactsGrab([...contacts, data])
     })
-
-
-
-
 
 
 
@@ -67,6 +63,30 @@ const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
       tableData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
+//PUT
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tableData),
+      }
+      fetch("http://localhost:3000/api/contacts/:id" + tableData.id, requestOptions) 
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data updated successfully:', data);
+        // You can update your component's state or take any other actions here
+      })
+      .catch((error) => {
+        console.error('Error updating data:', error);
+      });
+  }
+
       setTableData([...tableData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
@@ -76,6 +96,7 @@ const handleCancelRowEdits = () => {
     setValidationErrors({});
   };
 
+  
   const handleDeleteRow = useCallback(
     (row) => {
       if (
@@ -84,10 +105,22 @@ const handleCancelRowEdits = () => {
         return;
       }
       //send api delete request here, then refetch or update local table data for re-render
+      fetch(`http://localhost:8080/api/events/${id}`, {
+        method: "DELETE"
+      }).then((response) => {
+        if(response.status === 200) {
+          getContacts()
+        }
+      })
       tableData.splice(row.index, 1);
       setTableData([...tableData]);
     },
     [tableData],
+    
+      
+  
+      
+
   );
 
   const getCommonEditTextFieldProps = useCallback(
