@@ -15,12 +15,14 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import RelationshipContact, { relationships } from './relationshipcontact'; // Import the component and the 'relationships' array
+
 
 
 
 const CreateContact = () => {
-
+ 
+// eslint-disable-next-line react-hooks/exhaustive-deps
+const relationships = ['friend', 'colleague', 'family', 'Business'];
     //USE STATES
 
 const [tableData, setTableData] = useState([]);
@@ -201,7 +203,7 @@ const buildColumns = useMemo(
     }),
     },
     {  
-           
+    
     accessorKey: 'relationship',
         header: 'relationship',
         muiTableBodyCellEditTextFieldProps: {
@@ -215,7 +217,7 @@ const buildColumns = useMemo(
       },
    ],
 
-[getCommonEditTextFieldProps],
+[getCommonEditTextFieldProps, relationships],
 );
 
 //CREATE FUNCTIONS FOR THE COLUMNS; EDIT AND DELETE  
@@ -227,7 +229,7 @@ const buildColumns = useMemo(
   return (
     
     <div>
-      <RelationshipContact/>
+     
       <MaterialReactTable
         displayColumnDefOptions={{
           'mrt-row-actions': {
