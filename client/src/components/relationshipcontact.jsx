@@ -2,8 +2,11 @@
 import { MenuItem, Select, FormControl, InputLabel } from '@mui/material'
 
 
-function relationshipcontact() {
-const relationships = ['friend', 'colleague', 'family'];   
+
+const RelationshipContact = () =>{
+
+const relationships = ['friend', 'colleague', 'family']; 
+  
 
   return (
     
@@ -26,7 +29,10 @@ const relationships = ['friend', 'colleague', 'family'];
   );
 }
 
-export default relationshipcontact
+
+export default RelationshipContact;
+
+
 
 
 

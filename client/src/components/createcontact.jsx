@@ -15,7 +15,8 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import {relationships} from '/relationshipcontact'
+import RelationshipContact, { relationships } from './relationshipcontact'; // Import the component and the 'relationships' array
+
 
 
 const CreateContact = () => {
@@ -199,7 +200,8 @@ const buildColumns = useMemo(
       type: 'number',
     }),
     },
-    {       
+    {  
+           
     accessorKey: 'relationship',
         header: 'relationship',
         muiTableBodyCellEditTextFieldProps: {
@@ -225,6 +227,7 @@ const buildColumns = useMemo(
   return (
     
     <div>
+      <RelationshipContact/>
       <MaterialReactTable
         displayColumnDefOptions={{
           'mrt-row-actions': {
@@ -274,8 +277,18 @@ const buildColumns = useMemo(
     
   );
 
-       }
- 
+       };
+
+
+
+const validateRequired = (value) => !!value.length;
+const validateEmail = (email) =>
+  !!email.length &&
+  email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
 
 
 export default CreateContact
